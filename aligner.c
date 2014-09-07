@@ -261,11 +261,17 @@ void aligner(bwt_t *const bwt, int len, const ubyte_t *seq, bwtint_t level, hash
 		bwt_match_limit_rev(bwt, k, seq+i - k + 1, &down, &up,&limit);
 		if(limit < k){
 			i = i - k + limit;
+			if (i < k) break;
 			continue;
 		}
 		bwt_match_limit(bwt, i+1, seq, &down, &up,&limit);
 		for (j=down; j<=up && j <= (down + 50); j++){
 			bwtint_t index=bwt_sa(bwt,j);
+			if (index > len)
+               			index = index - len;
+            		else
+                		index = 0;
+
 			bwtint_t score=limit;
 
 			bwtint_t rindex=index- (i - limit+1);
@@ -277,6 +283,7 @@ void aligner(bwt_t *const bwt, int len, const ubyte_t *seq, bwtint_t level, hash
 				i = i - limit + (k - 1);
 			else
 				fprintf(stderr, "manfi\n");
+			if (i < k) break;
 		}
 	}
 	if (args->best_factor!=-1)

@@ -82,7 +82,7 @@ int smith_waterman(uint64_t match_start, uint64_t match_end, uint64_t index_star
 				fprintf(stderr,"%d\n",d[i-1][j+1]);
 			}
 */
-			if (getNuc(index_start+ref_i-1,seq_len)!=read[match_start+i-1])
+			if (index_start+ref_i-1 >= seq_len ||getNuc(index_start+ref_i-1,seq_len)!=read[match_start+i-1])
 				d[i][j]++;
 
 			if (match_end==len && i==match_end-match_start)
