@@ -254,7 +254,7 @@ int align_paired_read(char * buffer, char *cigar1[20], char *cigar2[20], bwa_seq
 		flag2 |= 32;
 	}
 	if(flag1 & 16)
-		seqs1->index = (bwt->seq_len / 2) - (seqs1->index - (bwt->seq_len / 2))-seqs1->len;
+		seqs1->index = (bwt->seq_len / 2) - (seqs1->index - (bwt->seq_len / 2))-2*seqs1->len;
 
 	if (mate2_matched==0)
 	{
@@ -269,7 +269,7 @@ int align_paired_read(char * buffer, char *cigar1[20], char *cigar2[20], bwa_seq
 		flag1 |= 32;
 	}
 	if(flag2 & 16)
-		seqs2->index = (bwt->seq_len / 2) - (seqs2->index - (bwt->seq_len / 2))-seqs2->len;
+		seqs2->index = (bwt->seq_len / 2) - (seqs2->index - (bwt->seq_len / 2))-2*seqs2->len;
 	ind1 = offsearch(0, offInd - 1, offset, seqs1->index);
 	ind2 = offsearch(0, offInd - 1, offset, seqs2->index);
 	seqs1->index -= offset[ind1];
@@ -508,7 +508,7 @@ int align_read(char * buffer, char *cigar[20], bwa_seq_t *seq, hash_element *tab
 	if(flag == 16)
 	{
 		uint64_t ref_aligned_len=reverse_cigar(cigar[best_found]);
-		seq->index = (bwt->seq_len / 2) - (seq->index - (bwt->seq_len / 2))-ref_aligned_len;
+		seq->index = (bwt->seq_len / 2) - (seq->index - (bwt->seq_len / 2))-2*ref_aligned_len;
 	}
 	ind = offsearch(0, offInd - 1, offset, seq->index);
 
